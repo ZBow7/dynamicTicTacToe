@@ -1,0 +1,145 @@
+:root {
+    --numColumns: 3;
+    --cellSize: 200px;
+    --boardSize: 450px;
+    --cellBorderSize: 1px solid black;
+    --cellFontSize: calc(var(--cellSize)/3.125);
+    --cellPreviewOffset: -15px;
+    /*cellTopMidPreviewShadow is for top AND middle*/
+    --cellTopMidPreviewShadow: 5px 5px 5px #888888;
+    --cellBottomPreviewShadow: 9px 0px 4px -4px #888888;
+    --cellRightPreviewShadow: 0px 9px 4px -4px #888888;
+}
+
+body {
+    background-color: #fcfcfc;
+}
+
+#board-container {
+    margin: 25px auto 0 auto;
+    justify-content: center;
+    text-align: center;
+}
+
+#boardMsg {
+    display: block;
+    font-size: 24px;
+}
+
+#turnMsg {
+    display: none;
+    font-size: 20px;
+    margin: 10px 0px 0px 0px;
+}
+
+.board {
+    display: grid;
+    margin: 0 auto;
+    width: var(--boardSize);
+    grid-template-columns: repeat(var(--numColumns), var(--cellSize));
+    grid-template-rows: repeat(var(--numColumns), var(--cellSize));
+}
+
+.cell {
+    border: var(--cellBorderSize);
+    position: relative;
+    left: var(--cellPreviewOffset);
+    top: var(--cellPreviewOffset);
+    text-align: center;
+    line-height: var(--cellSize);
+    text-align: center;
+    font-size: var(--cellFontSize);
+}
+
+.top:not(.right), .cell:not(.top, .bottom, .right) {
+    box-shadow: var(--cellTopMidPreviewShadow);
+}
+
+.bottom:not(.right) {
+    box-shadow: var(--cellBottomPreviewShadow);
+}
+
+.right:not(.bottom) {
+    box-shadow: var(--cellRightPreviewShadow);
+}
+
+.top {
+    border-top: none;
+}
+
+.left {
+    border-left: none;
+}
+
+.right {
+    border-right: none;
+}
+
+.bottom {
+    border-bottom: none;
+}
+
+.cell:not(.x):not(.o):hover {
+    cursor: pointer;
+}
+
+.x,
+.o {
+    cursor: not-allowed;
+}
+
+#gameHeader {
+    display: none;
+    font-size: 30px;
+    margin: 0px;
+}
+
+#resetBoard {
+    display: none;
+}
+
+.boardControl {
+    width: 25px;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 20px;
+}
+
+.boardButton {
+    width: 30px;
+    text-align: center;
+    border: none;
+    background-color: #5289eb;
+    color: white;
+}
+
+.boardButton:hover {
+    background-color: #1e65e5;
+}
+
+.boardButton:active {
+    height: 21px;
+    position: relative;
+    bottom: 3px;
+}
+
+.boardButton:focus {
+    outline: none;
+}
+
+.boardControl:focus {
+    outline: none;
+}
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
