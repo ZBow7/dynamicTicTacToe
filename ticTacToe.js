@@ -77,12 +77,19 @@ function checkHorizontal(horStart ,currentClass, rowColumnCount) {
 function checkDiagonal(id, currentClass, rowColumnCount) {
     if (id % (rowColumnCount + 1) == 0 || id % (rowColumnCount - 1) == 0) {
         for (let i = 0; i < rowColumnCount; i++) {
-            //Might have to rework this so that it's useful in determining which diagonal direction won
-            if (!document.getElementById(i*(rowColumnCount+1)).classList.contains(currentClass) && !document.getElementById((i+1)*(rowColumnCount-1)).classList.contains(currentClass)) {
-                return 0;
+            if (!document.getElementById(i*(rowColumnCount+1)).classList.contains(currentClass)) {
+                for (let j = 0; j < rowColumnCount; j++) {
+                    if (!document.getElementById((j+1)*(rowColumnCount-1)).classList.contains(currentClass)) {
+                        return 0;
+                    }
+                    if (j == rowColumnCount - 1) {
+                        diagonalHighlight(2, rowColumnCount);
+                        return 1;
+                    }
+                }
             }
             if (i == rowColumnCount - 1) {
-                console.log("Win Diagonal");
+                diagonalHighlight(1, rowColumnCount);
                 return 1;
             }
         }
@@ -98,6 +105,19 @@ function verticalHighlight(vertStart, rowColumnCount) {
 function horizontalHighlight (horStart, rowColumnCount) {
     for (let i = 0; i < rowColumnCount; i++) {
         document.getElementById(horStart + i).style.color = "green";
+    }
+}
+
+function diagonalHighlight (direction, rowColumnCount) {
+    if (direction == 1) {
+        for (let i = 0; i < rowColumnCount; i++) {
+            document.getElementById(i*(rowColumnCount+1)).style.color = "green";
+        }
+    }
+    else {
+        for (let i = 0; i < rowColumnCount; i++) {
+            document.getElementById((i+1)*(rowColumnCount-1)).style.color = "green";
+        }
     }
 }
 
