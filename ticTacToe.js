@@ -19,6 +19,121 @@ function gameStart() {
     });
 }
 
+function handleSize (direction) {
+    let currentValue = document.getElementById("boardSize").value;
+    if (direction == "up") {
+        currentValue++;
+    }
+    else {
+        currentValue--;
+    }
+    if (currentValue > 10) {
+        currentValue = 10;
+    }
+    else if (currentValue < 3) {
+        currentValue = 3;
+    }
+    document.getElementById("boardSize").value = currentValue;
+    boardPreview();
+}
+
+function handleScaling (direction) {
+    let currentValue = document.getElementById("boardScaling").value;
+    if (direction == "up") {
+        currentValue++;
+    }
+    else {
+        currentValue--;
+    }
+    if (currentValue > 10) {
+        currentValue = 10;
+    }
+    else if (currentValue < 1) {
+        currentValue = 1;
+    }
+
+    document.getElementById("boardScaling").value = currentValue;
+    boardPreview();
+}
+
+function boardPreview() {
+    //Getting and correcting board size & scaling if either are outside of acceptable range
+    let rowColumnCount = document.getElementById("boardSize").value;
+    if (rowColumnCount > 10) {
+        rowColumnCount = 10;
+        document.getElementById("boardSize").value = 10;
+    }
+    if (rowColumnCount < 3) {
+        rowColumnCount = 3;
+        document.getElementById("boardSize").value = 3;
+    }
+    document.getElementById("board").innerHTML = "";
+    let minCellCount = document.getElementById("boardSize").getAttribute("min");
+    let maxCellCount = document.getElementById("boardSize").getAttribute("max");
+    let boardScaling = document.getElementById("boardScaling").value;
+    if (boardScaling > 10) {
+        boardScaling = 10;
+        document.getElementById("boardScaling").value = 10;
+    }
+    if (boardScaling < 1) {
+        boardScaling = 1;
+        document.getElementById("boardScaling").value = 1;
+    }
+    //Math for working out board size & scaling based on their related inputs
+    let minBoardSize = boardScaling * 120;
+    let maxBoardSize = boardScaling * 200;
+    let cellSizeScaling = (maxBoardSize-minBoardSize)/(maxCellCount-minCellCount)/minBoardSize;
+    let newBoardSize = Math.round(minBoardSize*(1+cellSizeScaling*(rowColumnCount-minCellCount)));
+    let newCellSize = newBoardSize/rowColumnCount;
+    let newCells;
+    //Adding squares and assigning appropriate classes for border shadows during the board preview stage (before lock in)
+    for (i = 0; i < Math.pow(rowColumnCount, 2); i++) {
+        let newCellClass = "cell ";
+        if (i < rowColumnCount) {
+            newCellClass += "top ";
+                if (i > 0) {
+                    newCellClass += "topShadow ";
+                }
+        }
+        if (i >= Math.pow(rowColumnCount, 2) - rowColumnCount) {
+            newCellClass += "bottom ";
+            if (i > Math.pow(rowColumnCount, 2) - rowColumnCount) {
+                newCellClass += "bottomShadow ";
+            }
+        }
+        if (i % rowColumnCount == 0) {
+            newCellClass += "left ";
+        }
+        if (i % rowColumnCount == rowColumnCount - 1) {
+            newCellClass += "right ";
+        }
+        newCellClass = newCellClass.trim();
+        newCells = '<div id="' + i + '" class="' + newCellClass + '"></div>';
+        document.getElementById("board").innerHTML += newCells;
+    }
+    document.querySelector(":root").style.setProperty("--numColumns", rowColumnCount);
+    document.querySelector(":root").style.setProperty("--cellSize", newCellSize + "px");
+    document.querySelector(":root").style.setProperty("--boardSize", newBoardSize + "px");
+}
+
+function lockIn() {
+    let rowColumnCount = document.getElementById("boardSize").value;
+    document.getElementById("gameHeader").innerText = "Tic Tac Toe " + rowColumnCount + " in a row";
+    document.getElementById("turnMsg").innerText = "It is X's turn";
+    const cellElements = [...document.getElementsByClassName("cell")];
+    cellElements.forEach(cell => {
+        cell.addEventListener("click", handleClick, {once: true});
+    })
+    document.querySelector(":root").style.setProperty("--cellPreviewOffset", "0px");
+    document.querySelector(":root").style.setProperty("--cellTopMidPreviewShadow", "0px");
+    document.querySelector(":root").style.setProperty("--cellBottomPreviewShadow", "0px");
+    document.querySelector(":root").style.setProperty("--cellRightPreviewShadow", "0px");
+    document.getElementById("boardMsg").style.display = "none";
+    document.getElementById("turnMsg").style.display = "block";
+    document.getElementById("resetBoard").style.display = "block";
+    document.getElementById("gameHeader").style.display = "block";
+}
+
 function handleClick(e) {
     //Handling when user makes a selection on the board
     const cell = e.target;
@@ -149,121 +264,6 @@ function resetBoard() {
     document.getElementById("turnMsg").style.display = "none";
     document.getElementById("resetBoard").style.display = "none";
     document.getElementById("boardMsg").style.display = "block";
-}
-
-function boardPreview() {
-    //Getting and correcting board size & scaling if either are outside of acceptable range
-    let rowColumnCount = document.getElementById("boardSize").value;
-    if (rowColumnCount > 10) {
-        rowColumnCount = 10;
-        document.getElementById("boardSize").value = 10;
-    }
-    if (rowColumnCount < 3) {
-        rowColumnCount = 3;
-        document.getElementById("boardSize").value = 3;
-    }
-    document.getElementById("board").innerHTML = "";
-    let minCellCount = document.getElementById("boardSize").getAttribute("min");
-    let maxCellCount = document.getElementById("boardSize").getAttribute("max");
-    let boardScaling = document.getElementById("boardScaling").value;
-    if (boardScaling > 10) {
-        boardScaling = 10;
-        document.getElementById("boardScaling").value = 10;
-    }
-    if (boardScaling < 1) {
-        boardScaling = 1;
-        document.getElementById("boardScaling").value = 1;
-    }
-    //Math for working out board size & scaling based on their related inputs
-    let minBoardSize = boardScaling * 120;
-    let maxBoardSize = boardScaling * 200;
-    let cellSizeScaling = (maxBoardSize-minBoardSize)/(maxCellCount-minCellCount)/minBoardSize;
-    let newBoardSize = Math.round(minBoardSize*(1+cellSizeScaling*(rowColumnCount-minCellCount)));
-    let newCellSize = newBoardSize/rowColumnCount;
-    let newCells;
-    //Adding squares and assigning appropriate classes for border shadows during the board preview stage (before lock in)
-    for (i = 0; i < Math.pow(rowColumnCount, 2); i++) {
-        let newCellClass = "cell ";
-        if (i < rowColumnCount) {
-            newCellClass += "top ";
-                if (i > 0) {
-                    newCellClass += "topShadow ";
-                }
-        }
-        if (i >= Math.pow(rowColumnCount, 2) - rowColumnCount) {
-            newCellClass += "bottom ";
-            if (i > Math.pow(rowColumnCount, 2) - rowColumnCount) {
-                newCellClass += "bottomShadow ";
-            }
-        }
-        if (i % rowColumnCount == 0) {
-            newCellClass += "left ";
-        }
-        if (i % rowColumnCount == rowColumnCount - 1) {
-            newCellClass += "right ";
-        }
-        newCellClass = newCellClass.trim();
-        newCells = '<div id="' + i + '" class="' + newCellClass + '"></div>';
-        document.getElementById("board").innerHTML += newCells;
-    }
-    document.querySelector(":root").style.setProperty("--numColumns", rowColumnCount);
-    document.querySelector(":root").style.setProperty("--cellSize", newCellSize + "px");
-    document.querySelector(":root").style.setProperty("--boardSize", newBoardSize + "px");
-}
-
-function lockIn() {
-    let rowColumnCount = document.getElementById("boardSize").value;
-    document.getElementById("gameHeader").innerText = "Tic Tac Toe " + rowColumnCount + " in a row";
-    document.getElementById("turnMsg").innerText = "It is X's turn";
-    const cellElements = [...document.getElementsByClassName("cell")];
-    cellElements.forEach(cell => {
-        cell.addEventListener("click", handleClick, {once: true});
-    })
-    document.querySelector(":root").style.setProperty("--cellPreviewOffset", "0px");
-    document.querySelector(":root").style.setProperty("--cellTopMidPreviewShadow", "0px");
-    document.querySelector(":root").style.setProperty("--cellBottomPreviewShadow", "0px");
-    document.querySelector(":root").style.setProperty("--cellRightPreviewShadow", "0px");
-    document.getElementById("boardMsg").style.display = "none";
-    document.getElementById("turnMsg").style.display = "block";
-    document.getElementById("resetBoard").style.display = "block";
-    document.getElementById("gameHeader").style.display = "block";
-}
-
-function handleSize (direction) {
-    let currentValue = document.getElementById("boardSize").value;
-    if (direction == "up") {
-        currentValue++;
-    }
-    else {
-        currentValue--;
-    }
-    if (currentValue > 10) {
-        currentValue = 10;
-    }
-    else if (currentValue < 3) {
-        currentValue = 3;
-    }
-    document.getElementById("boardSize").value = currentValue;
-    boardPreview();
-}
-
-function handleScaling (direction) {
-    let currentValue = document.getElementById("boardScaling").value;
-    if (direction == "up") {
-        currentValue++;
-    }
-    else {
-        currentValue--;
-    }
-    if (currentValue > 10) {
-        currentValue = 10;
-    }
-    else if (currentValue < 1) {
-        currentValue = 1;
-    }
-
-    document.getElementById("boardScaling").value = currentValue;
-    boardPreview();
 }
 
 gameStart();
