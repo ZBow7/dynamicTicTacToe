@@ -51,7 +51,6 @@ function handleScaling (direction) {
     else if (currentValue < 1) {
         currentValue = 1;
     }
-
     document.getElementById("boardScaling").value = currentValue;
     boardPreview();
 }
@@ -133,14 +132,7 @@ function lockIn() {
     cellElements.forEach(cell => {
         cell.addEventListener("click", handleClick, {once: true});
     })
-    document.querySelector(":root").style.setProperty("--cellPreviewOffset", "0px");
-    document.querySelector(":root").style.setProperty("--cellTopMidPreviewShadow", "0px");
-    document.querySelector(":root").style.setProperty("--cellBottomPreviewShadow", "0px");
-    document.querySelector(":root").style.setProperty("--cellRightPreviewShadow", "0px");
-    document.getElementById("boardMsg").style.display = "none";
-    document.getElementById("turnMsg").style.display = "block";
-    document.getElementById("resetBoard").style.display = "block";
-    document.getElementById("gameHeader").style.display = "block";
+    updateVisuals("lockIn");
 }
 
 function handleClick(e) {
@@ -265,14 +257,30 @@ function resetBoard() {
         cell.style.color = "black";
     })
     turnTracker = true;
-    document.querySelector(":root").style.setProperty("--cellPreviewOffset", "-15px");
-    document.querySelector(":root").style.setProperty("--cellTopMidPreviewShadow", "5px 5px 5px #888888");
-    document.querySelector(":root").style.setProperty("--cellBottomPreviewShadow", "9px 0px 4px -4px #888888");
-    document.querySelector(":root").style.setProperty("--cellRightPreviewShadow", "0px 9px 4px -4px #888888");
-    document.getElementById("gameHeader").style.display = "none";
-    document.getElementById("turnMsg").style.display = "none";
-    document.getElementById("resetBoard").style.display = "none";
-    document.getElementById("boardMsg").style.display = "block";
+    updateVisuals("reset");
+}
+
+function updateVisuals (action) {
+    if (action == "lockIn") {
+        document.querySelector(":root").style.setProperty("--cellPreviewOffset", "0px");
+        document.querySelector(":root").style.setProperty("--cellTopMidPreviewShadow", "0px");
+        document.querySelector(":root").style.setProperty("--cellBottomPreviewShadow", "0px");
+        document.querySelector(":root").style.setProperty("--cellRightPreviewShadow", "0px");
+        document.getElementById("boardMsg").style.display = "none";
+        document.getElementById("turnMsg").style.display = "block";
+        document.getElementById("resetBoard").style.display = "block";
+        document.getElementById("gameHeader").style.display = "block";
+    }
+    else {
+        document.querySelector(":root").style.setProperty("--cellPreviewOffset", "-15px");
+        document.querySelector(":root").style.setProperty("--cellTopMidPreviewShadow", "5px 5px 5px #888888");
+        document.querySelector(":root").style.setProperty("--cellBottomPreviewShadow", "9px 0px 4px -4px #888888");
+        document.querySelector(":root").style.setProperty("--cellRightPreviewShadow", "0px 9px 4px -4px #888888");
+        document.getElementById("gameHeader").style.display = "none";
+        document.getElementById("turnMsg").style.display = "none";
+        document.getElementById("resetBoard").style.display = "none";
+        document.getElementById("boardMsg").style.display = "block";
+    }
 }
 
 gameStart();
