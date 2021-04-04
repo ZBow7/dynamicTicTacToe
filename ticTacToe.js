@@ -57,36 +57,20 @@ function handleScaling (direction) {
 }
 
 function boardPreview() {
-    //Getting and correcting board size & scaling if either are outside of acceptable range
-    let rowColumnCount = document.getElementById("boardSize").value;
-    if (rowColumnCount > 10) {
-        rowColumnCount = 10;
-        document.getElementById("boardSize").value = 10;
-    }
-    if (rowColumnCount < 3) {
-        rowColumnCount = 3;
-        document.getElementById("boardSize").value = 3;
-    }
     document.getElementById("board").innerHTML = "";
-    let minCellCount = document.getElementById("boardSize").getAttribute("min");
-    let maxCellCount = document.getElementById("boardSize").getAttribute("max");
-    let boardScaling = document.getElementById("boardScaling").value;
-    if (boardScaling > 10) {
-        boardScaling = 10;
-        document.getElementById("boardScaling").value = 10;
-    }
-    if (boardScaling < 1) {
-        boardScaling = 1;
-        document.getElementById("boardScaling").value = 1;
-    }
+    //Getting and correcting board size & scaling if either inputs are outside of acceptable range
+    let rowColumnCount = determinePreviewBoardSize();
+    let boardScaling = determinePreviewBoardScaling();
     //Math for working out board size & scaling based on their related inputs
+    let minCellCount = 3;
+    let maxCellCount = 10;
     let minBoardSize = boardScaling * 120;
     let maxBoardSize = boardScaling * 200;
     let cellSizeScaling = (maxBoardSize-minBoardSize)/(maxCellCount-minCellCount)/minBoardSize;
     let newBoardSize = Math.round(minBoardSize*(1+cellSizeScaling*(rowColumnCount-minCellCount)));
     let newCellSize = newBoardSize/rowColumnCount;
-    let newCells;
     //Adding squares and assigning appropriate classes for border shadows during the board preview stage (before lock in)
+    let newCells;
     for (i = 0; i < Math.pow(rowColumnCount, 2); i++) {
         let newCellClass = "cell ";
         if (i < rowColumnCount) {
@@ -114,6 +98,31 @@ function boardPreview() {
     document.querySelector(":root").style.setProperty("--numColumns", rowColumnCount);
     document.querySelector(":root").style.setProperty("--cellSize", newCellSize + "px");
     document.querySelector(":root").style.setProperty("--boardSize", newBoardSize + "px");
+}
+function determinePreviewBoardSize () {
+    let rowColumnCount = document.getElementById("boardSize").value;
+    if (rowColumnCount > 10) {
+        rowColumnCount = 10;
+        document.getElementById("boardSize").value = 10;
+    }
+    if (rowColumnCount < 3) {
+        rowColumnCount = 3;
+        document.getElementById("boardSize").value = 3;
+    }
+    return rowColumnCount;
+}
+
+function determinePreviewBoardScaling () {
+    let boardScaling = document.getElementById("boardScaling").value;
+    if (boardScaling > 10) {
+        boardScaling = 10;
+        document.getElementById("boardScaling").value = 10;
+    }
+    if (boardScaling < 1) {
+        boardScaling = 1;
+        document.getElementById("boardScaling").value = 1;
+    }
+    return boardScaling;
 }
 
 function lockIn() {
