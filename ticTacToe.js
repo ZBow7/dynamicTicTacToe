@@ -17,6 +17,7 @@ function gameStart() {
     document.getElementById("scaleUp").addEventListener("click", function() {
         handleScaling("up");
     });
+    window.addEventListener("resize", boardPreview);
 }
 
 function handleSize (direction) {
@@ -63,8 +64,10 @@ function boardPreview() {
     //Math for working out board size & scaling based on their related inputs
     let minCellCount = 3;
     let maxCellCount = 10;
-    let minBoardSize = boardScaling * 120;
-    let maxBoardSize = boardScaling * 200;
+    const minBoardSizeMod = 120; //Minimum size of board with boardScaling of 1 and square count of 3 - absolute smallest board size.  Final value is ultimately modified by scalingMod and the window width / height
+    const maxBoardSizeMod = 132; //Maximum size of board with boardScaling of 1 and square count of 10.  Smallest board size given highest square count.  Final value is ultimately modified by scalingMod and the window width / height
+    let minBoardSize = boardScaling * minBoardSizeMod;
+    let maxBoardSize = boardScaling * maxBoardSizeMod;
     let cellSizeScaling = (maxBoardSize-minBoardSize)/(maxCellCount-minCellCount)/minBoardSize;
     let newBoardSize = Math.round(minBoardSize*(1+cellSizeScaling*(rowColumnCount-minCellCount)));
     let newCellSize = newBoardSize/rowColumnCount;
@@ -121,7 +124,10 @@ function determinePreviewBoardScaling () {
         boardScaling = 1;
         document.getElementById("boardScaling").value = 1;
     }
-    return boardScaling;
+    let scalingMod = window.innerWidth / 980;
+    let heightWidthRatio = (window.innerHeight / window.innerWidth > 1.5) ? 1.5 : window.innerHeight / window.innerWidth;
+    heightWidthRatio = (heightWidthRatio < .6) ? .6 : heightWidthRatio;
+    return boardScaling * scalingMod * heightWidthRatio;
 }
 
 function lockIn() {
