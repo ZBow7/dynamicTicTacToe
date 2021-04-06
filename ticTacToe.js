@@ -288,6 +288,6 @@ function updateVisuals (action) {
         document.getElementById("boardMsg").style.display = "block";
     }
 }
-
+//
 gameStart();
 boardPreview();
