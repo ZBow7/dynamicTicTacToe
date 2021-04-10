@@ -60,16 +60,9 @@ function boardPreview() {
     document.getElementById("board").innerHTML = "";
     //Getting and correcting board size & scaling if either inputs are outside of acceptable range
     let rowColumnCount = determinePreviewBoardSize();
-    let boardScaling = determinePreviewBoardScaling();
+    let boardScaling = determinePreviewBoardScaling(rowColumnCount);
     //Math for working out board size & scaling based on their related inputs
-    let minCellCount = 3;
-    let maxCellCount = 10;
-    const minBoardSizeMod = 120; //Minimum size of board with boardScaling of 1 and square count of 3 - absolute smallest board size.  Final value is ultimately modified by scalingMod and the window width / height
-    const maxBoardSizeMod = 132; //Maximum size of board with boardScaling of 1 and square count of 10.  Smallest board size given highest square count.  Final value is ultimately modified by scalingMod and the window width / height
-    let minBoardSize = boardScaling * minBoardSizeMod;
-    let maxBoardSize = boardScaling * maxBoardSizeMod;
-    let cellSizeScaling = (maxBoardSize-minBoardSize)/(maxCellCount-minCellCount)/minBoardSize;
-    let newBoardSize = Math.round(minBoardSize*(1+cellSizeScaling*(rowColumnCount-minCellCount)));
+    let newBoardSize = (window.innerWidth > window.innerHeight) ? boardScaling * window.innerHeight : boardScaling * window.innerWidth; //Taking boardScaling and applying it to the smaller dimension
     let newCellSize = newBoardSize/rowColumnCount;
     //Adding squares and assigning appropriate classes for border shadows during the board preview stage (before lock in)
     let newCells;
@@ -114,7 +107,7 @@ function determinePreviewBoardSize () {
     return rowColumnCount;
 }
 
-function determinePreviewBoardScaling () {
+function determinePreviewBoardScaling (rowColumnCount) {
     let boardScaling = document.getElementById("boardScaling").value;
     if (boardScaling > 10) {
         boardScaling = 10;
@@ -124,10 +117,8 @@ function determinePreviewBoardScaling () {
         boardScaling = 1;
         document.getElementById("boardScaling").value = 1;
     }
-    let scalingMod = window.innerWidth / 980;
-    let heightWidthRatio = (window.innerHeight / window.innerWidth > 1.5) ? 1.5 : window.innerHeight / window.innerWidth;
-    heightWidthRatio = (heightWidthRatio < .6) ? .6 : heightWidthRatio;
-    return boardScaling * scalingMod * heightWidthRatio;
+    let finalScaling = .75 + .1 * (boardScaling - 5) + .01 * (rowColumnCount - 3);
+    return finalScaling;
 }
 
 function lockIn() {
