@@ -117,7 +117,7 @@ function determinePreviewBoardScaling (rowColumnCount) {
         boardScaling = 1;
         document.getElementById("boardScaling").value = 1;
     }
-    let finalScaling = .75 + .1 * (boardScaling - 5) + .01 * (rowColumnCount - 3);
+    let finalScaling = .7 + .1 * (boardScaling - 5) + .01 * (rowColumnCount - 3);
     return finalScaling;
 }
 
