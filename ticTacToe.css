@@ -16,20 +16,69 @@ body {
 }
 
 #board-container {
-    margin: 25px auto 0 auto;
     justify-content: center;
     text-align: center;
 }
 
-#boardMsg {
+#messageContainer {
     display: block;
-    font-size: 24px;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 25px 0px 50px 0px;
+}
+
+@media screen and (max-width: 360px) {
+    #messageContainer {
+        font-size: 1.25rem;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    #messageContainer {
+        font-size: 1rem;
+    }
+}
+
+#boardMsg {
+    margin: 0;
 }
 
 #turnMsg {
     display: none;
-    font-size: 20px;
-    margin: 10px 0px 0px 0px;
+    margin: 0;
+}
+
+.gameStateControl {
+    width: 75px;
+    margin-right: 20px;
+    background-color: #407de9;
+    color: #ececec; 
+    border-radius: 1px;
+    border: none;
+    font-size: 1rem;
+}
+
+.gameStateControl:hover {
+    background-color: #1e65e5;
+    color: #e2e2e2;
+}
+
+.gameStateControl:active {
+    position: relative;
+    bottom: 2px;
+}
+
+#resetBoard {
+    margin: 0px 0px 0px 20px;
+}
+
+#playAgain {
+    width: 100px;
+}
+
+#playAgainMsg {
+    margin: 0px 0px 0px 20px;
+    display: none;
 }
 
 .board {
@@ -90,7 +139,6 @@ body {
 
 #gameHeader {
     display: none;
-    font-size: 30px;
     margin: 0px;
 }
 
@@ -103,28 +151,28 @@ body {
     border: none;
     border-radius: 50%;
     text-align: center;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
-.boardButton {
+.sizeControl {
     width: 30px;
     text-align: center;
     border: none;
-    background-color: #5289eb;
+    background-color: #407de9;
     color: white;
 }
 
-.boardButton:hover {
+.sizeControl:hover {
     background-color: #1e65e5;
 }
 
-.boardButton:active {
+.sizeControl:active {
     height: 21px;
     position: relative;
     bottom: 3px;
 }
 
-.boardButton:focus {
+.sizeControl:focus {
     outline: none;
 }
 

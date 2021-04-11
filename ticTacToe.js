@@ -5,6 +5,7 @@ function gameStart() {
     document.getElementById("boardSize").addEventListener("change", boardPreview);
     document.getElementById("boardScaling").addEventListener("change", boardPreview);
     document.getElementById("resetBoard").addEventListener("click", resetBoard);
+    document.getElementById("playAgain").addEventListener("click", resetBoard);
     document.getElementById("sizeDown").addEventListener("click", function() {
         handleSize("down");
     });
@@ -17,6 +18,7 @@ function gameStart() {
     document.getElementById("scaleUp").addEventListener("click", function() {
         handleScaling("up");
     });
+    window.addEventListener("resize", boardPreview);
 }
 
 function handleSize (direction) {
@@ -59,14 +61,9 @@ function boardPreview() {
     document.getElementById("board").innerHTML = "";
     //Getting and correcting board size & scaling if either inputs are outside of acceptable range
     let rowColumnCount = determinePreviewBoardSize();
-    let boardScaling = determinePreviewBoardScaling();
+    let boardScaling = determinePreviewBoardScaling(rowColumnCount);
     //Math for working out board size & scaling based on their related inputs
-    let minCellCount = 3;
-    let maxCellCount = 10;
-    let minBoardSize = boardScaling * 120;
-    let maxBoardSize = boardScaling * 200;
-    let cellSizeScaling = (maxBoardSize-minBoardSize)/(maxCellCount-minCellCount)/minBoardSize;
-    let newBoardSize = Math.round(minBoardSize*(1+cellSizeScaling*(rowColumnCount-minCellCount)));
+    let newBoardSize = (window.innerWidth > window.innerHeight) ? boardScaling * window.innerHeight : boardScaling * window.innerWidth; //Taking boardScaling and applying it to the smaller dimension
     let newCellSize = newBoardSize/rowColumnCount;
     //Adding squares and assigning appropriate classes for border shadows during the board preview stage (before lock in)
     let newCells;
@@ -111,7 +108,7 @@ function determinePreviewBoardSize () {
     return rowColumnCount;
 }
 
-function determinePreviewBoardScaling () {
+function determinePreviewBoardScaling (rowColumnCount) {
     let boardScaling = document.getElementById("boardScaling").value;
     if (boardScaling > 10) {
         boardScaling = 10;
@@ -121,7 +118,8 @@ function determinePreviewBoardScaling () {
         boardScaling = 1;
         document.getElementById("boardScaling").value = 1;
     }
-    return boardScaling;
+    let finalScaling = .7 + .1 * (boardScaling - 5) + .01 * (rowColumnCount - 3);
+    return finalScaling;
 }
 
 function lockIn() {
@@ -238,8 +236,8 @@ function diagonalHighlight (direction, rowColumnCount) {
 }
 
 function handleWin (currentClass) {
-    document.getElementById("turnMsg").innerHTML = currentClass + " has won! <button id=playAgain>Play again</button>";
-    document.getElementById("playAgain").addEventListener("click", resetBoard, {once: true});
+    document.getElementById("turnMsg").innerHTML = currentClass + " has won!";
+    document.getElementById("playAgainMsg").style.display = "block";
     document.getElementById("resetBoard").style.display = "none";
     const cellElements = [...document.getElementsByClassName("cell")];
     cellElements.forEach(cell => {
@@ -280,6 +278,7 @@ function updateVisuals (action) {
         document.getElementById("turnMsg").style.display = "none";
         document.getElementById("resetBoard").style.display = "none";
         document.getElementById("boardMsg").style.display = "block";
+        document.getElementById("playAgainMsg").style.display = "none";
     }
 }
 

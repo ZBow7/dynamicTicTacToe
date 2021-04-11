@@ -8,6 +8,16 @@
 <html>
     <body>
         <div id="board-container">
+            <div id="messageContainer">
+                <p id="gameHeader"></p>
+                <p id="boardMsg">Tic Tac Toe <button id="sizeDown" class="sizeControl"><</button></button><input id="boardSize" class="boardControl" type="number" value="3" min="3" max = "10" /><button id="sizeUp" class="sizeControl">></button> in a row<br />
+                    Board scaling <button id="scaleDown" class="sizeControl"><</button><input id="boardScaling" class="boardControl" type="number" value="5" min="1" max="10" /><button id="scaleUp" class="sizeControl">></button><br />
+                    <button id="lockIn" class="gameStateControl" onclick="lockIn()">Lock in</button>
+                </p>
+                <p id="turnMsg">It is x's turn</p>
+                <p id="playAgainMsg"><button id=playAgain class=gameStateControl>Play again</button></p>
+                <p id="resetBoard"><button id="resetButton" class="gameStateControl">Reset</button></p>
+            </div>
             <p id="gameHeader"></p>
             <p id="boardMsg">Tic Tac Toe <button id="sizeDown" class="boardButton"><</button></button><input id="boardSize" class="boardControl" type="number" value="3" min="3" max = "10" /><button id="sizeUp" class="boardButton">></button> in a row<br />
                 Board scaling <button id="scaleDown" class="boardButton"><</button><input id="boardScaling" class="boardControl" type="number" value="5" min="1" max="10" /><button id="scaleUp" class="boardButton">></button><br />
