@@ -24,7 +24,7 @@ body {
     display: block;
     font-size: 1.5rem;
     text-align: center;
-    margin-bottom: 50px;
+    margin: 25px 0px 50px 0px;
 }
 
 @media screen and (max-width: 360px) {
@@ -39,14 +39,18 @@ body {
     }
 }
 
-#turnMsg {
-    display: none;
-    margin: 10px 0px 0px 0px;
+#boardMsg {
+    margin: 0;
 }
 
-#lockIn {
+#turnMsg {
+    display: none;
+    margin: 0;
+}
+
+.gameStateControl {
     width: 75px;
-    margin-right: 25px;
+    margin-right: 20px;
     background-color: #407de9;
     color: #ececec; 
     border-radius: 1px;
@@ -54,18 +58,27 @@ body {
     font-size: 1rem;
 }
 
-#lockIn:hover {
+.gameStateControl:hover {
     background-color: #1e65e5;
     color: #e2e2e2;
 }
 
-#lockIn:active {
+.gameStateControl:active {
     position: relative;
     bottom: 2px;
 }
 
 #resetBoard {
-    margin: 10px 0px 0px 0px;
+    margin: 0px 0px 0px 20px;
+}
+
+#playAgain {
+    width: 100px;
+}
+
+#playAgainMsg {
+    margin: 0px 0px 0px 20px;
+    display: none;
 }
 
 .board {
@@ -141,7 +154,7 @@ body {
     font-size: 1.25rem;
 }
 
-.boardButton {
+.sizeControl {
     width: 30px;
     text-align: center;
     border: none;
@@ -149,17 +162,17 @@ body {
     color: white;
 }
 
-.boardButton:hover {
+.sizeControl:hover {
     background-color: #1e65e5;
 }
 
-.boardButton:active {
+.sizeControl:active {
     height: 21px;
     position: relative;
     bottom: 3px;
 }
 
-.boardButton:focus {
+.sizeControl:focus {
     outline: none;
 }
 

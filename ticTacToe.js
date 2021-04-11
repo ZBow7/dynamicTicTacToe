@@ -5,6 +5,7 @@ function gameStart() {
     document.getElementById("boardSize").addEventListener("change", boardPreview);
     document.getElementById("boardScaling").addEventListener("change", boardPreview);
     document.getElementById("resetBoard").addEventListener("click", resetBoard);
+    document.getElementById("playAgain").addEventListener("click", resetBoard);
     document.getElementById("sizeDown").addEventListener("click", function() {
         handleSize("down");
     });
@@ -235,8 +236,8 @@ function diagonalHighlight (direction, rowColumnCount) {
 }
 
 function handleWin (currentClass) {
-    document.getElementById("turnMsg").innerHTML = currentClass + " has won! <button id=playAgain>Play again</button>";
-    document.getElementById("playAgain").addEventListener("click", resetBoard, {once: true});
+    document.getElementById("turnMsg").innerHTML = currentClass + " has won!";
+    document.getElementById("playAgainMsg").style.display = "block";
     document.getElementById("resetBoard").style.display = "none";
     const cellElements = [...document.getElementsByClassName("cell")];
     cellElements.forEach(cell => {
@@ -277,6 +278,7 @@ function updateVisuals (action) {
         document.getElementById("turnMsg").style.display = "none";
         document.getElementById("resetBoard").style.display = "none";
         document.getElementById("boardMsg").style.display = "block";
+        document.getElementById("playAgainMsg").style.display = "none";
     }
 }
 
