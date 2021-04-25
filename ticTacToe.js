@@ -4,7 +4,7 @@ function gameStart() {
     //Button functionality
     document.getElementById("boardSize").addEventListener("change", boardPreview);
     document.getElementById("boardScaling").addEventListener("change", boardPreview);
-    document.getElementById("resetBoard").addEventListener("click", resetBoard);
+    document.getElementById("resetButton").addEventListener("click", resetBoard);
     document.getElementById("playAgain").addEventListener("click", resetBoard);
     document.getElementById("sizeDown").addEventListener("click", function() {
         handleSize("down");
@@ -71,15 +71,9 @@ function boardPreview() {
         let newCellClass = "cell ";
         if (i < rowColumnCount) {
             newCellClass += "top ";
-                if (i > 0) {
-                    newCellClass += "topShadow ";
-                }
         }
         if (i >= Math.pow(rowColumnCount, 2) - rowColumnCount) {
             newCellClass += "bottom ";
-            if (i > Math.pow(rowColumnCount, 2) - rowColumnCount) {
-                newCellClass += "bottomShadow ";
-            }
         }
         if (i % rowColumnCount == 0) {
             newCellClass += "left ";
@@ -137,7 +131,7 @@ function handleClick(e) {
     //Handling when user makes a selection on the board
     const cell = e.target;
     const currentClass = turnTracker ? "x" : "o";
-    const nextTurn = turnTracker ? "o" : "x";
+    const nextTurn = turnTracker ? "O" : "X";
     cell.classList.add(currentClass);
     cell.innerHTML = currentClass.toUpperCase();
     if (!checkWin(currentClass, e.target.id)) {
@@ -165,7 +159,6 @@ function checkWin(currentClass, id) {
 function checkVertical(vertStart, currentClass, rowColumnCount) {
     for (let i = 0; i <= rowColumnCount; i++) {
         if (i == rowColumnCount) {
-            console.log("Win Vertical");
             verticalHighlight(vertStart, rowColumnCount);
             return 1;
         }
@@ -178,7 +171,6 @@ function checkVertical(vertStart, currentClass, rowColumnCount) {
 function checkHorizontal(horStart ,currentClass, rowColumnCount) {
     for (let i = 0; i <= rowColumnCount; i++) {
         if (i == rowColumnCount) {
-            console.log("Win horizontal");
             horizontalHighlight(horStart, rowColumnCount);
             return 1;
         }
