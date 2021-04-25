@@ -212,25 +212,33 @@ function checkDiagonal(id, currentClass, rowColumnCount) {
 
 function verticalHighlight(vertStart, rowColumnCount) {
     for (let i = 0; i < rowColumnCount; i++) {
-        document.getElementById(vertStart + i * rowColumnCount).style.color = "green";
+        setTimeout(function() {
+            document.getElementById(vertStart + i * rowColumnCount).classList.add("winningCell");
+        }, 250 * i);
     }
 }
 
 function horizontalHighlight (horStart, rowColumnCount) {
     for (let i = 0; i < rowColumnCount; i++) {
-        document.getElementById(horStart + i).style.color = "green";
+        setTimeout(function() {
+            document.getElementById(horStart + i).classList.add("winningCell");
+        }, 250 * i);
     }
 }
 
 function diagonalHighlight (direction, rowColumnCount) {
     if (direction == 1) {
         for (let i = 0; i < rowColumnCount; i++) {
-            document.getElementById(i*(rowColumnCount+1)).style.color = "green";
+            setTimeout(function() {
+                document.getElementById(i*(rowColumnCount+1)).classList.add("winningCell");
+            }, 250 * i);
         }
     }
     else {
         for (let i = 0; i < rowColumnCount; i++) {
-            document.getElementById((i+1)*(rowColumnCount-1)).style.color = "green";
+            setTimeout(function() {
+                document.getElementById((i+1)*(rowColumnCount-1)).classList.add("winningCell");
+            }, 250 * i);
         }
     }
 }
@@ -252,7 +260,7 @@ function resetBoard() {
         cell.classList.remove("o");
         cell.innerText = "";
         cell.removeEventListener("click", handleClick, {once: true});
-        cell.style.color = "black";
+        cell.classList.remove("winningCell");
     })
     turnTracker = true;
     updateVisuals("reset");
