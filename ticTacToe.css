@@ -100,6 +100,22 @@ body {
     font-size: var(--cellFontSize);
 }
 
+.winningCell {
+    color: #407de9;
+    font-size: calc(var(--cellSize)/2.5);
+    animation-duration: 1s;
+    animation-name: winAnim;
+}
+
+@keyframes winAnim {
+    from {
+        font-size: calc(var(--cellSize)/1.5);
+    }
+    to {
+        font-size: calc(var(--cellSize)/2.5);
+    }
+}
+
 .top:not(.right), .cell:not(.top, .bottom, .right) {
     box-shadow: var(--cellTopMidPreviewShadow);
 }
@@ -179,8 +195,6 @@ body {
 .boardControl:focus {
     outline: none;
 }
-
-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
