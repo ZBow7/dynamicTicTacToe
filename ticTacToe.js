@@ -236,7 +236,7 @@ function diagonalHighlight (direction, rowColumnCount) {
 }
 
 function handleWin (currentClass) {
-    document.getElementById("turnMsg").innerHTML = currentClass + " has won!";
+    document.getElementById("turnMsg").innerHTML = currentClass.toUpperCase() + " has won!";
     document.getElementById("playAgainMsg").style.display = "block";
     document.getElementById("resetBoard").style.display = "none";
     const cellElements = [...document.getElementsByClassName("cell")];
